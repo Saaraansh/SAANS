@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "944839894330",
+    "project_id": "saans-997ec",
+    "storage_bucket": "saans-997ec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:944839894330:android:6a75ef89083a446e9d9c03",
+        "android_client_info": {
+          "package_name": "com.hs3.saansapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "944839894330-l2u27lu5034aq126u4k41h1da75mjgj6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDs0tYMaD2yXUBik_drCOGOlKGtQJU2UHU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "944839894330-l2u27lu5034aq126u4k41h1da75mjgj6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
