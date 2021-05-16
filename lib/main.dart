@@ -6,13 +6,13 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'FlutterDemo',
+      title: 'SAANS',
       theme: ThemeData(
-      primarySwatch: Colors.blue,
+        fontfamily: "Brand Bold",
+        primarySwatch: Colors.blue,
       ),
       home: MainScreen() ,
       debugShowCheckedModeBanner: false,
