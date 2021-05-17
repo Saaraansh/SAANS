@@ -1,6 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
+import '../main.dart';
 import 'loginscreen.dart';
+import 'mainscreen.dart';
 
 class RegistrationScreen extends StatelessWidget {
   static const String idScreen=  "register";
@@ -175,7 +179,7 @@ class RegistrationScreen extends StatelessWidget {
           "name": nameTextEditingController.text.trim(),
           "email": emailTextEditingController.text.trim(),
           "phone": phoneTextEditingController.text.trim(),
-        }
+        };
         usersRef.child(firebaseUser.uid).set(userDataMap);
         displayToastMessage("Congratulations, your account has been created", context);
 
