@@ -17,7 +17,15 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Main Screen"),
-      )
+      ), 
+      body: Stack(
+        children: [
+          GoogleMap(
+            mapType: MapType.normal, 
+            myLocationButtonEnabled: true, 
+          ), 
+        ], 
+      ), 
     );
   }
 }
