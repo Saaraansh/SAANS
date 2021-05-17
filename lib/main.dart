@@ -7,9 +7,13 @@ import 'AllScreen/loginscreen.dart';
 import 'AllScreen/loginscreen.dart';
 
 
-void main() {
+void main() async
+{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initialzeApp();
   runApp(MyApp());
 }
+DatabaseReference usersRef = Firebase.instance.reference().child("users");
 
 class MyApp extends StatelessWidget {
   @override
