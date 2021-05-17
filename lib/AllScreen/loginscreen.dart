@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:saans_app/AllScreen/registrationScreen.dart';
+import 'package:saans_app/AllWidgets/progressdialog.dart';
 import 'package:saans_app/main.dart';
 
 import 'mainscreen.dart';
@@ -124,11 +125,22 @@ class LoginScreen extends StatelessWidget {
 
   void LoginAndAuthenticateUser(BuildContext context) async
   {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context)
+        {
+          // ignore: missing_return
+          return ProgressDialog(message: "Authenticating, Please Wait ......");
+        }
+    );
+
     final User firebaseUser = (await _firebaseAuth
         .signInWithEmailAndPassword(
         email: emailTextEditingController.text,
         password: passwordTextEditingController.text
     ).catchError((errMsg) {
+      Navigator.pop(context);
       displayToastMessage("Error: " + errMsg.toString(), context);
     })).user;
 
@@ -140,7 +152,9 @@ class LoginScreen extends StatelessWidget {
               context, MainScreen.idScreen, (route) => false);
           displayToastMessage("You are logged-in now Successfully!", context);
         }
-        else {
+        else
+          {
+          Navigator.pop(context);
           _firebaseAuth.signOut();
           displayToastMessage(
               "No record exists for this User. Please create new account!",
@@ -150,7 +164,7 @@ class LoginScreen extends StatelessWidget {
     }
     else
     {
-      //error occured - display eeror msg
+      Navigator.pop(context);
       displayToastMessage("Cannot be Signed In ",context);
     }
   }
