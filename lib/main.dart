@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'SAANS',
       theme: ThemeData(
-        fontfamily: "Brand Bold",
+        fontFamily: "Brand Bold",
         primarySwatch: Colors.blue,
       ),
       home: MainScreen() ,
