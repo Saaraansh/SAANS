@@ -4,7 +4,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: colors.white,
+        backgroundColor: Colors. white,
         body: Column(
           children:[
             SizedBox(height: 35.0,),
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
             ), //lOGIN TEXT
 
             Padding(
-              padding: EdgeInsert.all(20.0),
+              padding: EdgeInsets.all(20.0),
               child: Column(
                 children: [
 
@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
 
                     SizedBox(height:1.0),
                     TextField(
-                      obscureText: True,
+                      obscureText: true,
                       decoration:InputDecoration(
                        labelText: "Password",
                         labelStyle: TextStyle(
@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
                   ),//TEXTFIELD FOR PASSWORD
 
                   SizedBox(height:10.0,),
-                  RasiedButton(
+                  RaisedButton(
                     color: Colors.red,
                     textColor:Colors.black,
                     child: Container(
@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
                       child: Center(
                         child: Text(
                           "Login",
-                          style: TextStyle(fontSize: 10.0,, fontFamily:"Brand Bond"),
+                          style: TextStyle(fontSize: 10.0 , fontFamily:"Brand Bond"),
                         ), //TEXT
                       ),//CENTER
                     ), //CONTAINER
@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
                     ), //ROUNDEDBUTTON
                     onPressed: ()
                     {
-                      print("Logged in as a guest")
+                      print("Logged in as a guest");
                     }
                   ), //RAISEDBUTTON
                   
@@ -85,7 +85,7 @@ class MyApp extends StatelessWidget {
             ), //PADDING
             FlatButton(
               onPressed:(){
-                print("Logged In")
+                print("Logged In");
               },
               child: Text(
                 "Don't have an account yet? Register Here"

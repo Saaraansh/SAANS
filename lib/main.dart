@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:saans_app/AllScreen/mainscreen.dart';
+import 'package:saans_app/AllScreen/loginscreen.dart';
+import 'package:saans_app/AllScreen/registrationScreen.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -14,7 +17,7 @@ class MyApp extends StatelessWidget {
         fontFamily: "Brand Bold",
         primarySwatch: Colors.blue,
       ),
-      home: MainScreen() ,
+      home: loginScreen() ,
       debugShowCheckedModeBanner: false,
     );
   }
