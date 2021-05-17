@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:saans_app/AllScreen/registrationScreen.dart';
 
 class LoginScreen extends StatelessWidget {
+  static const String idScreen=  "login";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,7 +87,8 @@ class LoginScreen extends StatelessWidget {
             ), //PADDING
             FlatButton(
               onPressed:(){
-                print("Logged In");
+                Navigator.pushNamedAndRemoveUntil(context, RegistrationScreen.idScreen , (route) => false);
+
               },
               child: Text(
                 "Don't have an account yet? Register Here"
