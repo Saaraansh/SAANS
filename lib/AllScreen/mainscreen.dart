@@ -198,7 +198,7 @@ class _MainScreenState extends State<MainScreen> {
                     children:[
                       Icon(Icons.work, color: Colors.grey,),
                       SizedBox(width:12.0,)
-                      Column(
+                      ;Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children:[
                           Text("Add Work"),
