@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:saans_app/AllWidgets/Divider.dart';
 
 
 class MainScreen extends StatefulWidget {
@@ -16,7 +17,7 @@ class _MainScreenState extends State<MainScreen> {
   Completer<GoogleMapController> _controllerGoogleMap = Completer();
   GoogleMapController newGoogleMapController;
 
-  GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
+  GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
 
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
@@ -25,7 +26,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldkey,
+      key: scaffoldKey,
       appBar: AppBar(
         title: Text("Main Screen"),
       ), //APPBAR
@@ -96,7 +97,7 @@ class _MainScreenState extends State<MainScreen> {
           child:GestureDetector(
             onTap:()
             {
-              scaffoldkey.currentState.openDrawer(),
+              scaffoldKey.currentState.openDrawer(),
             },
           child: Container(
           decoration: BoxDecoration(
