@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:saans_app/AllWidgets/Divider.dart';
@@ -26,8 +28,7 @@ class _MainScreenState extends State<MainScreen> {
   ); //cameraposition
   @override
   Widget build(BuildContext context) {
-    var assest = assest;
-        return Scaffold(
+    return Scaffold(
           key: scaffoldKey,
           appBar: AppBar(
             title: Text("Main Screen"),
@@ -44,7 +45,7 @@ class _MainScreenState extends State<MainScreen> {
                       decoration: BoxDecoration(color: Colors.white),
                       child: Row(
                         children:[
-                          Image.assest("images/user_icon.png", height: 65.0, width:65.0,),
+                          Image.asset("images/user_icon.png", height: 65.0, width:65.0,),
                       SizedBox(width:16.0,),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -61,8 +62,9 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ), //INNERCONTAINER
 
-              DividerWidget(),
-              SizeBoxed(height:12.0,),
+              DividerWidget(
+                  SizedBox(height:12.0,),
+              ),
               ListTile(
                 leading:Icon(Icons.history),
                 title: Text("History", style: TextStyle(fontSize:15.0,),),
@@ -104,7 +106,7 @@ class _MainScreenState extends State<MainScreen> {
           child: Container(
           decoration: BoxDecoration(
             color:Colors.white,
-            border.Radius:BorderRadius.circular(22.0),
+            borderRadius:BorderRadius.circular(22.0),
             boxShadow:[
               BoxShadow(
                 color:Colors.black,
@@ -144,7 +146,7 @@ class _MainScreenState extends State<MainScreen> {
                   ),//BOXSHAD
                 ],
               ),//BOXDEC
-              child Padding(
+              child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal:24.0, vertical:18.0),
                 child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start, 
@@ -181,7 +183,7 @@ class _MainScreenState extends State<MainScreen> {
                   Row(
                     children:[
                       Icon(Icons.home, color: Colors.grey,),
-                      SizedBox(width:12.0,)
+                      SizedBox(width:12.0,),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children:[
@@ -200,8 +202,8 @@ class _MainScreenState extends State<MainScreen> {
                   Row(
                     children:[
                       Icon(Icons.work, color: Colors.grey,),
-                      SizedBox(width:12.0,)
-                      ;Column(
+                      SizedBox(width:12.0,),
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children:[
                           Text("Add Work"),

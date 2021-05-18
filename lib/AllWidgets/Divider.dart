@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class DividerWidget extends StatelessWidget {
+  DividerWidget(SizedBox sizedBox);
+
   @override
   Widget build(BuildContext context) {
     return Divider(
