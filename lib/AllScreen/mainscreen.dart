@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:saans_app/AllWidgets/Divider.dart';
 
 
@@ -14,7 +15,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   
-  Completer<GoogleMapController> _controllerGoogleMap = Completer();
+  Completer< GoogleMapController > _controllerGoogleMap = Completer();
   GoogleMapController newGoogleMapController;
 
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -25,24 +26,25 @@ class _MainScreenState extends State<MainScreen> {
   ); //cameraposition
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      appBar: AppBar(
-        title: Text("Main Screen"),
-      ), //APPBAR
-      drawer: Container(
-        color: Colors.white,
-        width:255.0,
-        child: Drawer(
-          child: ListView(
-            children: [
-              Container(
-                height:165.0,
-                child: DrawerHeader(
-                  decoration: BoxDecoration(color: Colors.white),
-                  child: Row(
-                    children:[
-                      Image.assest("images/user_icon.png", height: 65.0, width:65.0,),
+    var assest = assest;
+        return Scaffold(
+          key: scaffoldKey,
+          appBar: AppBar(
+            title: Text("Main Screen"),
+          ), //APPBAR
+          drawer: Container(
+            color: Colors.white,
+            width:255.0,
+            child: Drawer(
+              child: ListView(
+                children: [
+                  Container(
+                    height:165.0,
+                    child: DrawerHeader(
+                      decoration: BoxDecoration(color: Colors.white),
+                      child: Row(
+                        children:[
+                          Image.assest("images/user_icon.png", height: 65.0, width:65.0,),
                       SizedBox(width:16.0,),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -97,7 +99,7 @@ class _MainScreenState extends State<MainScreen> {
           child:GestureDetector(
             onTap:()
             {
-              scaffoldKey.currentState.openDrawer(),
+              scaffoldKey.currentState.openDrawer();
             },
           child: Container(
           decoration: BoxDecoration(
