@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:saans_app/AllScreen/searchScreen.dart';
 import 'package:saans_app/AllWidgets/Divider.dart';
 import 'package:saans_app/Assistants/assistantMethod.dart';
 import 'package:saans_app/DataHandler/appData.dart';
@@ -183,29 +184,35 @@ class _MainScreenState extends State<MainScreen> {
                   Text("Hello", style: TextStyle(fontSize:10.0),),
                   Text("Where to?", style: TextStyle(fontSize:20.0, fontFamily:"Brand-Bold"),),
                   SizedBox(height: 20.0),
-                  Container(
-                     decoration: BoxDecoration(
+                  GestureDetector(
+                    onTap: ()
+                    {
+                      Navigator.push(context, MaterialPageRoute(builder: (content)=> SearchScreen() ));
+                    },
+                    child: Container(
+                       decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(5.0),
                 boxShadow:[
-                  BoxShadow(
-                    color:Colors.black54,
-                    blurRadius: 6.0,
-                    spreadRadius: 0.5,
-                    offset: Offset(0.7,0.7),
-                  ),//BOXSHAD2
+                    BoxShadow(
+                      color:Colors.black54,
+                      blurRadius: 6.0,
+                      spreadRadius: 0.5,
+                      offset: Offset(0.7,0.7),
+                    ),//BOXSHAD2
                 ],
               ),//BOXDEC2
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Row(
                 children:[
-                  Icon(Icons.search, color: Colors.greenAccent,),
-                  SizedBox(width:10.0,),
-                  Text("Seach Drop off")
+                    Icon(Icons.search, color: Colors.greenAccent,),
+                    SizedBox(width:10.0,),
+                    Text("Seach Drop off")
                 ],
               ),
               ),
+                    ),
                   ),//Container2
                   SizedBox(height: 24.0),
                   Row(
