@@ -144,7 +144,7 @@ class _SearchScreenState extends State<SearchScreen>
                   itemBuilder: (context, index){
                     return PredictionTile(placePredictions: placePredictionList[index],);
                   },
-                  separatorBuilder: (BuildContext context, int index) => DividerWidget(),
+                  separatorBuilder: (BuildContext context, int index) => return DividerWidget(),
                   itemCount: placePredictionList.length,
                   shrinkWrap: true,
                   physics: ClampingScrollPhysics(),
