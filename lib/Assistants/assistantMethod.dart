@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:saans_app/Assistants/requestAssistant.dart';
 import 'package:saans_app/DataHandler/appData.dart';
 import 'package:saans_app/Models/address.dart';
+import 'package:saans_app/Models/directDetails.dart';
 import 'package:saans_app/configMaps.dart';
 
 class AssistantMethods
@@ -35,7 +36,7 @@ class AssistantMethods
     return placeAddress;
   }
 
-  static Future<DirectionDetails> obtainDirectionDetails(LatLng initalPosition, LatLng finalPosition) async
+  static Future<DirectionDetails> obtainDirectionDetails(LatLng initialPosition, LatLng finalPosition) async
   {
     String directionUrl = "https://maps.googleapis.com/maps/api/directions/json?origin=${initialPosition.latitude},${initialPosition.longitude}&destination=${finalPosition.latitude},${finalPosition.longitude}&key=$mapKey";
 

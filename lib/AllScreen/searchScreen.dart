@@ -1,7 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:saans_app/AllWidgets/Divider.dart';
+import 'package:saans_app/AllWidgets/progressdialog.dart';
 import 'package:saans_app/Assistants/requestAssistant.dart';
 import 'package:saans_app/DataHandler/appData.dart';
+import 'package:saans_app/Models/address.dart';
+import 'package:saans_app/Models/placePredictions.dart';
+import 'package:saans_app/Models/placePredictions.dart';
 import 'package:saans_app/configMaps.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -14,7 +21,7 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen>
 {
 
-  List<PlacePredictions> placePredictionList =[];
+  List<placePredictions> placePredictionList =[];
 
   @override
   Widget build(BuildContext context)
@@ -139,17 +146,17 @@ class _SearchScreenState extends State<SearchScreen>
                   itemBuilder: (context, index){
                     return PredictionTile(placePredictions: placePredictionList[index],);
                   },
-                  separatorBuilder: (BuildContext context, int index) => DividerWidget(),
+                  separatorBuilder: (BuildContext context, int index) =>  DividerWidget(SizedBox()),
                   itemCount: placePredictionList.length,
                   shrinkWrap: true,
-                  physics: ClamplingScrollPhysics(),
+                  physics: ClampingScrollPhysics(),
                 ),
-              ),
-            : Container(), 
-        ],
-      ),
-    );
-  }
+              )
+              :Container(),
+              ],
+      )
+   );
+ }
 
   void findPlace(placeName) async
   {
@@ -165,7 +172,7 @@ class _SearchScreenState extends State<SearchScreen>
       if(res["status"] == "OK")
       {
         var predictions = res["predictions"];
-        var placesList = (predictions as List).map((e) =>PlacePredictions.fromJson(e)).toList();
+        var placesList = (predictions as List).map((e) =>placePredictions.fromJson(e)).toList();
         setState((){
           placePredictionList = placesList;
         });
@@ -178,7 +185,7 @@ class _SearchScreenState extends State<SearchScreen>
 
 class PredictionTile extends StatelessWidget {
 
-  final PlacePredictions placePredictions;
+  final placePredictions;
 
   PredictionTile({Key key, this.placePredictions}) : super(key: key);
 
@@ -196,7 +203,7 @@ class PredictionTile extends StatelessWidget {
           SizedBox(width:10.0,),
           Row(
             children:[
-              Icon(Icons.add.location),
+              Icon(Icons.add_location),
               SizedBox(width:14.0,),
               Expanded(
                 child: Column(
@@ -214,9 +221,9 @@ class PredictionTile extends StatelessWidget {
        ),//ROW
         SizedBox(width:10.0,),
       ],
-    );
-    ); //CONTAINER
     ),
+    ), //CONTAINER
+    );
   }
 
   void getPlaceAddressDetails(String placeId, context) async
