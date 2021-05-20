@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:saans_app/AllWidgets/Divider.dart';
@@ -144,7 +146,7 @@ class _SearchScreenState extends State<SearchScreen>
                   itemBuilder: (context, index){
                     return PredictionTile(placePredictions: placePredictionList[index],);
                   },
-                  separatorBuilder: (BuildContext context, int index) => return DividerWidget(),
+                  separatorBuilder: (BuildContext context, int index) =>  DividerWidget(SizedBox()),
                   itemCount: placePredictionList.length,
                   shrinkWrap: true,
                   physics: ClampingScrollPhysics(),
