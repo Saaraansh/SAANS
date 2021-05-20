@@ -25,7 +25,7 @@ class _MainScreenState extends State<MainScreen> {
 
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   Position currentPosition;
-  var geolocator = Geolocator();
+  var geoLocator = Geolocator();
 
   double bottomPaddingOfMap = 0;
   void locatePosition()async

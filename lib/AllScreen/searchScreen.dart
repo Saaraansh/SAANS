@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:saans_app/Assistants/requestAssistant.dart';
 import 'package:saans_app/DataHandler/appData.dart';
+import 'package:saans_app/configMaps.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key key}) : super(key: key);
@@ -11,17 +13,10 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen>
 {
-  TextEditingController pickUpTextEditingController = TextEditingController();
-  TextEditingController dropOffTextEditingController = TextEditingController();
-
   @override
   Widget build(BuildContext context)
   {
-    String placeAddress = Provider.of<AppData>(context).pickUpLocation.placeName ?? "";
-    pickUpTextEditingController.text = placeAddress;
-
-
-    return Scaffold(
+   return Scaffold(
       body: Column(
         children: [
           Container(
@@ -76,8 +71,7 @@ class _SearchScreenState extends State<SearchScreen>
                             child: Padding(
                               padding: EdgeInsets.all(3.0),
                               child: TextField(
-                                controller: pickUpTextEditingController,
-                                decoration: InputDecoration(
+                                  decoration: InputDecoration(
                                   hintText: "PickUp Location",
                                   fillColor: Colors.grey[400],
                                   filled: true,
@@ -108,8 +102,11 @@ class _SearchScreenState extends State<SearchScreen>
                             child: Padding(
                               padding: EdgeInsets.all(3.0),
                               child: TextField(
-                                controller: dropOffTextEditingController,
-                                decoration: InputDecoration(
+                                onChanged: (val)
+                                {
+                                  findPlace(val);
+                                },
+                                  decoration: InputDecoration(
                                   hintText: "Where to?",
                                   fillColor: Colors.grey[400],
                                   filled: true,
@@ -130,5 +127,21 @@ class _SearchScreenState extends State<SearchScreen>
         ]
       ),
     );
+  }
+
+  void findPlace(placeName) async
+  {
+    if(placeName.length > 1)
+    {
+      String autoComplete = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$placeName&key=$mapKey&sessiontoken=1234567890&components=country:in";
+      var res = await RequestAssistant.getRequest(autoComplete);
+
+      if(res == "failed")
+        {
+          return;
+        }
+      print('Places Predictions Response::');
+      print(res);
+    }
   }
 }
