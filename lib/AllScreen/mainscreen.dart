@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:saans_app/AllScreen/searchScreen.dart';
 import 'package:saans_app/AllWidgets/Divider.dart';
+import 'package:saans_app/AllWidgets/progressdialog.dart';
 import 'package:saans_app/Assistants/assistantMethod.dart';
 import 'package:saans_app/DataHandler/appData.dart';
 
@@ -276,10 +277,10 @@ class _MainScreenState extends State<MainScreen> {
 
     showDialog(
       context:context,
-      builder:(BuildContext context) => ProgressDialog(message: "Please Wait",)
+      builder:(BuildContext context) => ProgressDialog(message: "Please Wait"),
     );
 
-    var details = await AssistanceMethods.obtainPlaceDirectionDetails(pickUpLarLng, dropOffLatLng);
+    var details = await AssistantMethods.obtainDirectionDetails(pickUpLatLng, dropOffLatLng);
 
     Navigator.pop(context);
     print("Your Encoded Points:");  
