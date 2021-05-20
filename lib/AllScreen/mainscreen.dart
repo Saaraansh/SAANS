@@ -25,6 +25,8 @@ class _MainScreenState extends State<MainScreen> {
   GoogleMapController newGoogleMapController;
 
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+  List<LatLng>pLineCoordinates = [];
+  Set<Polyline> polyline = {};
   Position currentPosition;
   var geoLocator = Geolocator();
 
