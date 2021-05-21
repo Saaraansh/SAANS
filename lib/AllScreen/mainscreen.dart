@@ -10,6 +10,7 @@ import 'package:saans_app/AllWidgets/Divider.dart';
 import 'package:saans_app/AllWidgets/progressdialog.dart';
 import 'package:saans_app/Assistants/assistantMethod.dart';
 import 'package:saans_app/DataHandler/appData.dart';
+import 'package:saans_app/Models/directDetails.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key key}) : super(key: key);
@@ -28,6 +29,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
   GoogleMapController newGoogleMapController;
 
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+  DirectionDetails tripDirectionDetails ;
   List<LatLng>pLineCoordinates = [];
   Set<Polyline> polyline = {};
   Position currentPosition;
@@ -335,9 +337,14 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                                     "Ambulance",style: TextStyle(fontSize: 18.0, fontFamily: "Brand-Bold",)
                                   ),
                                   Text(
-                                    "10Km",style: TextStyle(fontSize: 18.0, color: Colors.grey,),
+                                    "tripDirectionDetails.distanceText",style: TextStyle(fontSize: 18.0, color: Colors.grey,),
                                   ),
+
                                 ],
+                              ),
+                              Expanded(child: Container() ),
+                              Text(
+
                               ),
                             ],
                           ),
@@ -404,6 +411,11 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
     );
 
     var details = await AssistantMethods.obtainDirectionDetails(pickUpLatLng, dropOffLatLng);
+    setState(() {
+      tripDirectionDetails = details;
+
+    });
+
 
     Navigator.pop(context);
     print("Your Encoded Points:");  

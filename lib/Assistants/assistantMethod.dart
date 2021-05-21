@@ -57,5 +57,12 @@ class AssistantMethods
   return directionDetails;
 
   }
+  static int calculateFares(DirectionDetails directionDetails){
+    //in terms of INR
+    double distanceTravelledFare = (directionDetails.distanceValue / 1000)* 150 ;
+    double totalFareAmount =  distanceTravelledFare ;
+    return totalFareAmount.truncate();
+
+  }
 
 }
