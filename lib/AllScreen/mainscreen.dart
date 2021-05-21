@@ -1,4 +1,7 @@
 import 'dart:async';
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,6 +15,10 @@ import 'package:saans_app/Assistants/assistantMethod.dart';
 import 'package:saans_app/DataHandler/appData.dart';
 import 'package:saans_app/Models/directDetails.dart';
 
+import '../Assistants/assistantMethod.dart';
+import '../configMaps.dart';
+import 'loginscreen.dart';
+
 class MainScreen extends StatefulWidget {
   const MainScreen({Key key}) : super(key: key);
   static const String idScreen=  "mainscreen";
@@ -19,8 +26,6 @@ class MainScreen extends StatefulWidget {
   @override
   _MainScreenState createState() => _MainScreenState();
 }
-
-
 
 class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
  {
@@ -30,24 +35,104 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
 
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   DirectionDetails tripDirectionDetails ;
+
   List<LatLng>pLineCoordinates = [];
   Set<Polyline> polyline = {};
+
   Position currentPosition;
   var geoLocator = Geolocator();
-
   double bottomPaddingOfMap = 0;
+
   Set<Marker> markersSet = {};
   Set<Circle> circlesSet = {};
 
   double rideDetailsContainerHeight = 0;
+  double requestRideDetailsContainerHeight = 0;
   double searchContainerHeight=300.0;
+
   bool drawerOpen = true;
+
+  DatabaseReference rideRequestRef;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    AssistantMethods.getCurrentOnlineUserInfo();
+  }
+
+  void saveRideRequest()
+  {
+    rideRequestRef = FirebaseDatabase.instance.reference().child("Ride Requests").push();
+
+    var pickUp = Provider.of<AppData>(context, listen: false).pickUpLocation;
+    var dropOff = Provider.of<AppData>(context, listen: false).dropOffLocation;
+
+    Map pickUpLocMap =
+        {
+          "latitude": pickUp.latitude.toString(),
+          "longitude": pickUp.longitude.toString(),
+        };
+
+    Map dropOffLocMap =
+    {
+      "latitude": dropOff.latitude.toString(),
+      "longitude": dropOff.longitude.toString(),
+    };
+
+    Map rideinfoMap =
+        {
+          "driver id": "waiting",
+          "payment method": "cash",
+          "pickup": pickUpLocMap,
+          "dropoff": dropOffLocMap,
+          "created at": DateTime.now().toString(),
+          "rider_name": userCurrentInfo.name,
+          "rider_phone": userCurrentInfo.phone,
+          "pickup_address": pickUp.placeName,
+          "dropoff_address":dropOff.placeName,
+        };
+    rideRequestRef.set(rideinfoMap);
+  }
+
+  void cancelRideRequest()
+  {
+    rideRequestRef.remove();
+
+  }
+
+  void displayRequestRideContainer()
+  {
+    setState(() {
+      requestRideDetailsContainerHeight = 250.0;
+      rideDetailsContainerHeight = 0;
+      bottomPaddingOfMap =230.0;
+      drawerOpen = true;
+    });
+    saveRideRequest();
+  }
+
+  static const colorizeColors = [
+    Colors.green,
+    Colors.purple,
+    Colors.pink,
+    Colors.blue,
+    Colors.yellow,
+    Colors.red,
+  ];
+
+  static const colorizeTextStyle = TextStyle(
+    fontSize: 55.0,
+    fontFamily: 'Horizon',
+  );
+
   resetApp()
   {
     setState(() {
       drawerOpen= true;
       searchContainerHeight=300.0;
-      rideDetailsContainerHeight = 240.0;
+      rideDetailsContainerHeight = 0;
+      requestRideDetailsContainerHeight = 0;
       bottomPaddingOfMap =230.0;
       polylineSet.clear();
       markersSet.clear();
@@ -139,6 +224,17 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                 leading:Icon(Icons.info),
                 title: Text("About", style: TextStyle(fontSize:15.0,),),
               ),
+                  GestureDetector(
+                    onTap: ()
+                    {
+                      FirebaseAuth.instance.signOut();
+                      Navigator.pushNamed(context, LoginScreen.idScreen, arguments: (route) => false);
+                    },
+                    child: ListTile(
+                      leading:Icon(Icons.info),
+                      title: Text("Sign Out", style: TextStyle(fontSize:15.0,),),
+                    ),
+                  ),
             ],
           ),
         ),
@@ -368,7 +464,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                               ),
                               Expanded(child: Container() ),
                               Text(
-                                  ((tripDirectionDetails != null) ? '\$INR{AssitantMethods.calculateFares{tripDirectionDetails}}': '') , style: TextStyle(fontFamily: "BrandBold",)
+                                  ((tripDirectionDetails != null) ? '\$INR{AssistantMethods.calculateFares{tripDirectionDetails}}': '') , style: TextStyle(fontFamily: "BrandBold",)
                               ),
                             ],
                           ),
@@ -395,7 +491,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                         child: RaisedButton(
                           onPressed: ()
                           {
-                            print("clicked");
+                            displayRequestRideContainer();
                           },
                           color: Theme.of(context).accentColor,
                           child: Padding(
@@ -416,8 +512,89 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
               
               ),
             ),
-          )
-        ], 
+          ),
+
+          Positioned(
+            bottom: 0.0,
+            left: 0.0,
+            right: 0.0,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(16.0), topRight: Radius.circular(16.0),),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                      spreadRadius: 0.5,
+                      blurRadius: 16.0,
+                      color: Colors.black54,
+                      offset: Offset(0.7, 0.7),
+                  ),
+                ],
+                ),
+                height: requestRideDetailsContainerHeight,
+                child: Padding(
+                  padding: const EdgeInsets.all(30.0),
+                  child: Column(
+                  children: [
+                        SizedBox(height: 12.0, ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: AnimatedTextKit(
+                        animatedTexts: [
+                        ColorizeAnimatedText(
+                          'Requesting a Ride',
+                        textStyle: colorizeTextStyle,
+                        colors: colorizeColors,
+                        ),
+                        ColorizeAnimatedText(
+                          'Please wait .......',
+                          textStyle: colorizeTextStyle,
+                          colors: colorizeColors,
+                          ),
+                        ColorizeAnimatedText(
+                          'Finding an Ambulance',
+                          textStyle: colorizeTextStyle,
+                          colors: colorizeColors,
+                            ),
+                          ],
+                          isRepeatingAnimation: true,
+                          onTap: () {
+                          print("Tap Event");
+                          },
+                        ),
+                      ),
+
+                    SizedBox(height: 22.0, ),
+                    GestureDetector(
+                      onTap: ()
+                      {
+                        cancelRideRequest();
+                        resetApp();
+                      },
+                      child: Container(
+                        height: 60.0,
+                        width: 60.0,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(26.0),
+                          border: Border.all(width: 2.0, color: Colors.grey[300]),
+                        ),
+                        child: Icon(Icons.close, size: 26.0,),
+                      ),
+                    ),
+
+                    SizedBox(height: 22.0, ),
+                    Container(
+                      width: double.infinity,
+                      child: Text("Cancel Ride", textAlign: TextAlign.center, style:TextStyle(fontSize: 12.0),),
+                    ),
+                  ],
+                  ),
+                ),
+              ),
+          ),
+
+        ],
       ), 
     ); //SCAFFOLD
   }
@@ -526,7 +703,6 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
       circlesSet.add(pickUpLocCircle);
       circlesSet.add(dropOffLocCircle);
     });
-
 
 
     }

@@ -1,11 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:saans_app/Assistants/requestAssistant.dart';
 import 'package:saans_app/DataHandler/appData.dart';
 import 'package:saans_app/Models/address.dart';
+import 'package:saans_app/Models/allUsers.dart';
 import 'package:saans_app/Models/directDetails.dart';
 import 'package:saans_app/configMaps.dart';
+
+import '../configMaps.dart';
+import '../configMaps.dart';
 
 class AssistantMethods
 {
@@ -65,4 +72,17 @@ class AssistantMethods
 
   }
 
+  static void getCurrentOnlineUserInfo() async
+  {
+    firebaseUser = await FirebaseAuth.instance.currentUser;
+    String userId = firebaseUser.uid;
+    DatabaseReference reference = FirebaseDatabase.instance.reference().child("users").child(userId);
+    reference.once().then((DataSnapshot dataSnapShot)
+    {
+      if (dataSnapShot.value != null)
+        {
+          userCurrentInfo = Users.fromSnapshot(dataSnapShot);
+        }
+    });
+  }
 }

@@ -35,10 +35,10 @@ dependencies:
   geolocator: ^7.0.3
   http: ^0.13.3
   flutter_polyline_points: ^1.0.0
-
-
+  animated_text_kit: ^4.2.1
   provider: ^5.0.0
   font_awesome_flutter: ^9.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

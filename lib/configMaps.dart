@@ -1,1 +1,8 @@
-String mapKey= "AIzaSyAC8j8cZtw4V1JhSQfn9wvwPfLM4jjCos4";
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:saans_app/Models/allUsers.dart';
+
+String mapKey= "AIzaSyBbmpwWl5O9uMyz68OAE2ojtQIDY5yf208";
+
+User firebaseUser;
+
+Users userCurrentInfo ;
