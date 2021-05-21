@@ -41,6 +41,22 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
 
   double rideDetailsContainerHeight = 0;
   double searchContainerHeight=300.0;
+  bool drawerOpen = true;
+  resetApp()
+  {
+    setState(() {
+      drawerOpen= true;
+      searchContainerHeight=300.0;
+      rideDetailsContainerHeight = 240.0;
+      bottomPaddingOfMap =230.0;
+      polylineSet.clear();
+      markersSet.clear();
+      circlesSet.clear();
+      pLineCoordinates.clear();
+
+    });
+    locatePosition();
+  }
 
   void displayRideDetailsContainer() async
   {
@@ -49,6 +65,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
       searchContainerHeight=0;
       rideDetailsContainerHeight = 240.0;
       bottomPaddingOfMap =230.0;
+      drawerOpen = false;
     });
   }
 
@@ -153,12 +170,19 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
 
         // HAMBURGER BTN
         Positioned(
-          top:45.0,
+          top:30.0,
           left:22.0,
           child:GestureDetector(
             onTap:()
             {
-              scaffoldKey.currentState.openDrawer();
+              if(drawerOpen)
+                {
+                  scaffoldKey.currentState.openDrawer();
+                }
+              else
+                {
+                  resetApp();
+                }
             },
           child: Container(
           decoration: BoxDecoration(
@@ -178,7 +202,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
           ), //BOXDECORATION
           child: CircleAvatar(
             backgroundColor: Colors.white,
-            child: Icon(Icons.menu, color:Colors.black,),
+            child: Icon((drawerOpen) ? Icons.menu : Icons.close , color:Colors.black,),
             radius:20.0,
           ),
         ),
@@ -337,14 +361,14 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                                     "Ambulance",style: TextStyle(fontSize: 18.0, fontFamily: "Brand-Bold",)
                                   ),
                                   Text(
-                                    "tripDirectionDetails.distanceText",style: TextStyle(fontSize: 18.0, color: Colors.grey,),
+                                    ((tripDirectionDetails != null) ?tripDirectionDetails.distanceText : ''),style: TextStyle(fontSize: 18.0, color: Colors.grey,),
                                   ),
 
                                 ],
                               ),
                               Expanded(child: Container() ),
                               Text(
-
+                                  ((tripDirectionDetails != null) ? '\$INR{AssitantMethods.calculateFares{tripDirectionDetails}}': '') , style: TextStyle(fontFamily: "BrandBold",)
                               ),
                             ],
                           ),
