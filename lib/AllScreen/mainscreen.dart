@@ -34,7 +34,6 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
   GoogleMapController newGoogleMapController;
 
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-  DirectionDetails tripDirectionDetails ;
 
   List<LatLng>pLineCoordinates = [];
   Set<Polyline> polyline = {};
@@ -456,16 +455,11 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                                   Text(
                                     "Ambulance",style: TextStyle(fontSize: 18.0, fontFamily: "Brand-Bold",)
                                   ),
-                                  Text(
-                                    ((tripDirectionDetails != null) ?tripDirectionDetails.distanceText : ''),style: TextStyle(fontSize: 18.0, color: Colors.grey,),
-                                  ),
+
 
                                 ],
                               ),
-                              Expanded(child: Container() ),
-                              Text(
-                                  ((tripDirectionDetails != null) ? '\$INR{AssistantMethods.calculateFares{tripDirectionDetails}}': '') , style: TextStyle(fontFamily: "BrandBold",)
-                              ),
+
                             ],
                           ),
                         ),
@@ -612,10 +606,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
     );
 
     var details = await AssistantMethods.obtainDirectionDetails(pickUpLatLng, dropOffLatLng);
-    setState(() {
-      tripDirectionDetails = details;
 
-    });
 
 
     Navigator.pop(context);
