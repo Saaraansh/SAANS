@@ -28,15 +28,16 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
- {
-  
+{
+
   Completer< GoogleMapController > _controllerGoogleMap = Completer();
   GoogleMapController newGoogleMapController;
 
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+  DirectionDetails tripDirectionDetails ;
 
   List<LatLng>pLineCoordinates = [];
-  Set<Polyline> polyline = {};
+  Set<Polyline> polylineSet = {};
 
   Position currentPosition;
   var geoLocator = Geolocator();
@@ -68,10 +69,10 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
     var dropOff = Provider.of<AppData>(context, listen: false).dropOffLocation;
 
     Map pickUpLocMap =
-        {
-          "latitude": pickUp.latitude.toString(),
-          "longitude": pickUp.longitude.toString(),
-        };
+    {
+      "latitude": pickUp.latitude.toString(),
+      "longitude": pickUp.longitude.toString(),
+    };
 
     Map dropOffLocMap =
     {
@@ -80,17 +81,17 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
     };
 
     Map rideinfoMap =
-        {
-          "driver id": "waiting",
-          "payment method": "cash",
-          "pickup": pickUpLocMap,
-          "dropoff": dropOffLocMap,
-          "created at": DateTime.now().toString(),
-          "rider_name": userCurrentInfo.name,
-          "rider_phone": userCurrentInfo.phone,
-          "pickup_address": pickUp.placeName,
-          "dropoff_address":dropOff.placeName,
-        };
+    {
+      "driver id": "waiting",
+      "payment method": "cash",
+      "pickup": pickUpLocMap,
+      "dropoff": dropOffLocMap,
+      "created at": DateTime.now().toString(),
+      "rider_name": userCurrentInfo.name,
+      "rider_phone": userCurrentInfo.phone,
+      "pickup_address": pickUp.placeName,
+      "dropoff_address":dropOff.placeName,
+    };
     rideRequestRef.set(rideinfoMap);
   }
 
@@ -153,7 +154,6 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
     });
   }
 
-  get polylineSet => null;
   void locatePosition()async
   {
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
@@ -175,23 +175,23 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          key: scaffoldKey,
-          appBar: AppBar(
-            title: Text("Main Screen"),
-          ), //APPBAR
-          drawer: Container(
-            color: Colors.white,
-            width:255.0,
-            child: Drawer(
-              child: ListView(
-                children: [
-                  Container(
-                    height:165.0,
-                    child: DrawerHeader(
-                      decoration: BoxDecoration(color: Colors.white),
-                      child: Row(
-                        children:[
-                          Image.asset("images/user_icon.png", height: 65.0, width:65.0,),
+      key: scaffoldKey,
+      appBar: AppBar(
+        title: Text("Main Screen"),
+      ), //APPBAR
+      drawer: Container(
+        color: Colors.white,
+        width:255.0,
+        child: Drawer(
+          child: ListView(
+            children: [
+              Container(
+                height:165.0,
+                child: DrawerHeader(
+                  decoration: BoxDecoration(color: Colors.white),
+                  child: Row(
+                    children:[
+                      Image.asset("images/user_icon.png", height: 65.0, width:65.0,),
                       SizedBox(width:16.0,),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -209,7 +209,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
               ), //INNERCONTAINER
 
               DividerWidget(
-                  SizedBox(height:12.0,),
+                SizedBox(height:12.0,),
               ),
               ListTile(
                 leading:Icon(Icons.history),
@@ -223,17 +223,17 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                 leading:Icon(Icons.info),
                 title: Text("About", style: TextStyle(fontSize:15.0,),),
               ),
-                  GestureDetector(
-                    onTap: ()
-                    {
-                      FirebaseAuth.instance.signOut();
-                      Navigator.pushNamed(context, LoginScreen.idScreen, arguments: (route) => false);
-                    },
-                    child: ListTile(
-                      leading:Icon(Icons.info),
-                      title: Text("Sign Out", style: TextStyle(fontSize:15.0,),),
-                    ),
-                  ),
+              GestureDetector(
+                onTap: ()
+                {
+                  FirebaseAuth.instance.signOut();
+                  Navigator.pushNamed(context, LoginScreen.idScreen, arguments: (route) => false);
+                },
+                child: ListTile(
+                  leading:Icon(Icons.info),
+                  title: Text("Sign Out", style: TextStyle(fontSize:15.0,),),
+                ),
+              ),
             ],
           ),
         ),
@@ -242,8 +242,8 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
         children: [
           GoogleMap(
             padding: EdgeInsets.only(bottom: bottomPaddingOfMap),
-            mapType: MapType.normal, 
-            myLocationButtonEnabled: true, 
+            mapType: MapType.normal,
+            myLocationButtonEnabled: true,
             initialCameraPosition: _kGooglePlex,
             myLocationEnabled:  true,
             zoomGesturesEnabled: true,
@@ -260,49 +260,49 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                 bottomPaddingOfMap = 300.0;
               });
               locatePosition();
-            }, 
+            },
           ), //MAP
 
-        // HAMBURGER BTN
-        Positioned(
-          top:30.0,
-          left:22.0,
-          child:GestureDetector(
-            onTap:()
-            {
-              if(drawerOpen)
+          // HAMBURGER BTN
+          Positioned(
+            top:30.0,
+            left:22.0,
+            child:GestureDetector(
+              onTap:()
+              {
+                if(drawerOpen)
                 {
                   scaffoldKey.currentState.openDrawer();
                 }
-              else
+                else
                 {
                   resetApp();
                 }
-            },
-          child: Container(
-          decoration: BoxDecoration(
-            color:Colors.white,
-            borderRadius:BorderRadius.circular(22.0),
-            boxShadow:[
-              BoxShadow(
-                color:Colors.black,
-                blurRadius:6.0,
-                spreadRadius: 0.5,
-                offset: Offset(
-                  0.7,
-                  0.7,
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color:Colors.white,
+                  borderRadius:BorderRadius.circular(22.0),
+                  boxShadow:[
+                    BoxShadow(
+                      color:Colors.black,
+                      blurRadius:6.0,
+                      spreadRadius: 0.5,
+                      offset: Offset(
+                        0.7,
+                        0.7,
+                      ),
+                    ),
+                  ],
+                ), //BOXDECORATION
+                child: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  child: Icon((drawerOpen) ? Icons.menu : Icons.close , color:Colors.black,),
+                  radius:20.0,
                 ),
               ),
-            ],
-          ), //BOXDECORATION
-          child: CircleAvatar(
-            backgroundColor: Colors.white,
-            child: Icon((drawerOpen) ? Icons.menu : Icons.close , color:Colors.black,),
-            radius:20.0,
+            ),
           ),
-        ),
-        ),
-      ),
 
           Positioned(
             left:0.0,
@@ -329,92 +329,92 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal:24.0, vertical:18.0),
                   child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start, 
-                  children:[
-                    SizedBox(height: 6.0),
-                    Text("Hello", style: TextStyle(fontSize:10.0),),
-                    Text("Where to?", style: TextStyle(fontSize:20.0, fontFamily:"Brand-Bold"),),
-                    SizedBox(height: 20.0),
-                    GestureDetector(
-                      onTap: () async
-                      {
-                      var res = await Navigator.push(context, MaterialPageRoute(builder: (content)=> SearchScreen() ));
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children:[
+                      SizedBox(height: 6.0),
+                      Text("Hello", style: TextStyle(fontSize:10.0),),
+                      Text("Where to?", style: TextStyle(fontSize:20.0, fontFamily:"Brand-Bold"),),
+                      SizedBox(height: 20.0),
+                      GestureDetector(
+                        onTap: () async
+                        {
+                          var res = await Navigator.push(context, MaterialPageRoute(builder: (content)=> SearchScreen() ));
 
-                      if(res == "obtainDirection")
-                      { 
-                        displayRideDetailsContainer();
-                      }
-                      },
-                      child: Container(
-                         decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(5.0),
-                  boxShadow:[
-                      BoxShadow(
-                        color:Colors.black54,
-                        blurRadius: 6.0,
-                        spreadRadius: 0.5,
-                        offset: Offset(0.7,0.7),
-                      ),//BOXSHAD2
-                  ],
-                ),//BOXDEC2
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Row(
-                  children:[
-                      Icon(Icons.search, color: Colors.greenAccent,),
-                      SizedBox(width:10.0,),
-                      Text("Seach Drop off")
-                  ],
-                ),
-                ),
-                      ),
-                    ),//Container2
-                    SizedBox(height: 24.0),
-                    Row(
-                      children:[
-                        Icon(Icons.home, color: Colors.grey,),
-                        SizedBox(width:12.0,),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children:[
-                            Text(
-                              Provider.of<AppData>(context).pickUpLocation != null
-                              ? Provider.of<AppData>(context).pickUpLocation.placeName
-                              : "Add Home"
+                          if(res == "obtainDirection")
+                          {
+                            displayRideDetailsContainer();
+                          }
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5.0),
+                            boxShadow:[
+                              BoxShadow(
+                                color:Colors.black54,
+                                blurRadius: 6.0,
+                                spreadRadius: 0.5,
+                                offset: Offset(0.7,0.7),
+                              ),//BOXSHAD2
+                            ],
+                          ),//BOXDEC2
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Row(
+                              children:[
+                                Icon(Icons.search, color: Colors.greenAccent,),
+                                SizedBox(width:10.0,),
+                                Text("Seach Drop off")
+                              ],
                             ),
-                            SizedBox(height:4.0,),
-                            Text("Your Home Address", style: TextStyle(color: Colors.black54, fontSize:12.0),),
-                          ],
+                          ),
                         ),
-                      ],
-                    ), //ROW
+                      ),//Container2
+                      SizedBox(height: 24.0),
+                      Row(
+                        children:[
+                          Icon(Icons.home, color: Colors.grey,),
+                          SizedBox(width:12.0,),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children:[
+                              Text(
+                                  Provider.of<AppData>(context).pickUpLocation != null
+                                      ? Provider.of<AppData>(context).pickUpLocation.placeName
+                                      : "Add Home"
+                              ),
+                              SizedBox(height:4.0,),
+                              Text("Your Home Address", style: TextStyle(color: Colors.black54, fontSize:12.0),),
+                            ],
+                          ),
+                        ],
+                      ), //ROW
 
-                     SizedBox(height: 10.0),
-                    DividerWidget(
-                     SizedBox(height: 16.0),  
-                    ),
-                    Row(
-                      children:[
-                        Icon(Icons.work, color: Colors.grey,),
-                        SizedBox(width:12.0,),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children:[
-                            Text("Add Work"),
-                            SizedBox(height:4.0,),
-                            Text("Your Work Address", style: TextStyle(color: Colors.black54, fontSize:12.0),),
-                          ],
-                        ),
-                      ],
-                    ), //ROW2
-                  ],
-                ),
+                      SizedBox(height: 10.0),
+                      DividerWidget(
+                        SizedBox(height: 16.0),
+                      ),
+                      Row(
+                        children:[
+                          Icon(Icons.work, color: Colors.grey,),
+                          SizedBox(width:12.0,),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children:[
+                              Text("Add Work"),
+                              SizedBox(height:4.0,),
+                              Text("Your Work Address", style: TextStyle(color: Colors.black54, fontSize:12.0),),
+                            ],
+                          ),
+                        ],
+                      ), //ROW2
+                    ],
+                  ),
                 ),
               ),
             ), //Container
           ),
-          
+
           Positioned(
             bottom: 0.0,
             left: 0.0,
@@ -453,13 +453,18 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Ambulance",style: TextStyle(fontSize: 18.0, fontFamily: "Brand-Bold",)
+                                      "Ambulance",style: TextStyle(fontSize: 18.0, fontFamily: "Brand-Bold",)
                                   ),
-
+                                  Text(
+                                    ((tripDirectionDetails != null) ?tripDirectionDetails.distanceText : ''),style: TextStyle(fontSize: 18.0, color: Colors.grey,),
+                                  ),
 
                                 ],
                               ),
-
+                              Expanded(child: Container() ),
+                              Text(
+                                  ((tripDirectionDetails != null) ? '\$INR{AssistantMethods.calculateFares{tripDirectionDetails}}': '') , style: TextStyle(fontFamily: "BrandBold",)
+                              ),
                             ],
                           ),
                         ),
@@ -483,27 +488,27 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.0),
                         child: RaisedButton(
-                          onPressed: ()
-                          {
-                            displayRequestRideContainer();
-                          },
-                          color: Theme.of(context).accentColor,
-                          child: Padding(
-                            padding: EdgeInsets.all(17.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("Request", style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white),),
-                                Icon(FontAwesomeIcons.taxi, color: Colors.white, size: 26.0,),
-                              ],
-                            ),
-                          )
+                            onPressed: ()
+                            {
+                              displayRequestRideContainer();
+                            },
+                            color: Theme.of(context).accentColor,
+                            child: Padding(
+                              padding: EdgeInsets.all(17.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("Request", style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold, color: Colors.white),),
+                                  Icon(FontAwesomeIcons.taxi, color: Colors.white, size: 26.0,),
+                                ],
+                              ),
+                            )
                         ),
                       ),
                     ],
                   ),
                 ),
-              
+
               ),
             ),
           ),
@@ -518,45 +523,45 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                      spreadRadius: 0.5,
-                      blurRadius: 16.0,
-                      color: Colors.black54,
-                      offset: Offset(0.7, 0.7),
+                    spreadRadius: 0.5,
+                    blurRadius: 16.0,
+                    color: Colors.black54,
+                    offset: Offset(0.7, 0.7),
                   ),
                 ],
-                ),
-                height: requestRideDetailsContainerHeight,
-                child: Padding(
-                  padding: const EdgeInsets.all(30.0),
-                  child: Column(
+              ),
+              height: requestRideDetailsContainerHeight,
+              child: Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: Column(
                   children: [
-                        SizedBox(height: 12.0, ),
-                      SizedBox(
-                        width: double.infinity,
-                        child: AnimatedTextKit(
+                    SizedBox(height: 12.0, ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: AnimatedTextKit(
                         animatedTexts: [
-                        ColorizeAnimatedText(
-                          'Requesting a Ride',
-                        textStyle: colorizeTextStyle,
-                        colors: colorizeColors,
-                        ),
-                        ColorizeAnimatedText(
-                          'Please wait .......',
-                          textStyle: colorizeTextStyle,
-                          colors: colorizeColors,
+                          ColorizeAnimatedText(
+                            'Requesting a Ride',
+                            textStyle: colorizeTextStyle,
+                            colors: colorizeColors,
                           ),
-                        ColorizeAnimatedText(
-                          'Finding an Ambulance',
-                          textStyle: colorizeTextStyle,
-                          colors: colorizeColors,
-                            ),
-                          ],
-                          isRepeatingAnimation: true,
-                          onTap: () {
+                          ColorizeAnimatedText(
+                            'Please wait .......',
+                            textStyle: colorizeTextStyle,
+                            colors: colorizeColors,
+                          ),
+                          ColorizeAnimatedText(
+                            'Finding an Ambulance',
+                            textStyle: colorizeTextStyle,
+                            colors: colorizeColors,
+                          ),
+                        ],
+                        isRepeatingAnimation: true,
+                        onTap: () {
                           print("Tap Event");
-                          },
-                        ),
+                        },
                       ),
+                    ),
 
                     SizedBox(height: 22.0, ),
                     GestureDetector(
@@ -583,13 +588,13 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                       child: Text("Cancel Ride", textAlign: TextAlign.center, style:TextStyle(fontSize: 12.0),),
                     ),
                   ],
-                  ),
                 ),
               ),
+            ),
           ),
 
         ],
-      ), 
+      ),
     ); //SCAFFOLD
   }
 
@@ -606,35 +611,38 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
     );
 
     var details = await AssistantMethods.obtainDirectionDetails(pickUpLatLng, dropOffLatLng);
+    setState(() {
+      tripDirectionDetails = details;
 
+    });
 
 
     Navigator.pop(context);
-    print("Your Encoded Points:");  
+    print("Your Encoded Points:");
     print(details.encodedPoints);
     PolylinePoints polylinePoints = PolylinePoints();
     List<PointLatLng> decodedPolyLinePointsResult =polylinePoints.decodePolyline(details.encodedPoints);
     pLineCoordinates.clear();
     if(decodedPolyLinePointsResult.isNotEmpty)
-      {
-        decodedPolyLinePointsResult.forEach((PointLatLng pointLatLng){
-          pLineCoordinates.add(LatLng(pointLatLng.latitude, pointLatLng.longitude));
-        });
-      }
+    {
+      decodedPolyLinePointsResult.forEach((PointLatLng pointLatLng){
+        pLineCoordinates.add(LatLng(pointLatLng.latitude, pointLatLng.longitude));
+      });
+    }
     polylineSet.clear();
     setState(() {
       Polyline polyline = Polyline(
         color: Colors.pinkAccent,
-            polylineId: PolylineId("PolylineId"),
-      jointType: JointType.round,
-      points: pLineCoordinates,
-      width: 5,
-      startCap: Cap.roundCap,
-      endCap: Cap.roundCap,
-      geodesic: true,
+        polylineId: PolylineId("PolylineId"),
+        jointType: JointType.round,
+        points: pLineCoordinates,
+        width: 5,
+        startCap: Cap.roundCap,
+        endCap: Cap.roundCap,
+        geodesic: true,
 
       );
-          polylineSet.add(polyline);
+      polylineSet.add(polyline);
     });
     LatLngBounds latLngBounds;
     if(pickUpLatLng.latitude > dropOffLatLng.latitude && pickUpLatLng.longitude > dropOffLatLng.longitude) {
@@ -696,5 +704,5 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
     });
 
 
-    }
+  }
 }

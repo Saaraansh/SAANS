@@ -12,7 +12,6 @@ import 'package:saans_app/Models/directDetails.dart';
 import 'package:saans_app/configMaps.dart';
 
 import '../configMaps.dart';
-import '../configMaps.dart';
 
 class AssistantMethods
 {
@@ -21,9 +20,9 @@ class AssistantMethods
     String placeAddress = "";
     String st1, st2, st3, st4;
     String url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=${position.latitude},${position.longitude}&key=$mapKey";
-  
+
     var response = await RequestAssistant.getRequest(url);
-    
+
     if(response != "failed")
     {
       //placeAddress = response["results"][0]["formatted_address"];
@@ -61,10 +60,16 @@ class AssistantMethods
     directionDetails.durationText = res["routes"][0]["legs"][0]["duration"]["text"];
     directionDetails.durationValue = res["routes"][0]["legs"][0]["duration"]["value"];
 
-  return directionDetails;
+    return directionDetails;
 
   }
+  static int calculateFares(DirectionDetails directionDetails){
+    //in terms of INR
+    double distanceTravelledFare = (directionDetails.distanceValue / 1000)* 150 ;
+    double totalFareAmount =  distanceTravelledFare ;
+    return totalFareAmount.truncate();
 
+  }
 
   static void getCurrentOnlineUserInfo() async
   {
@@ -74,9 +79,9 @@ class AssistantMethods
     reference.once().then((DataSnapshot dataSnapShot)
     {
       if (dataSnapShot.value != null)
-        {
-          userCurrentInfo = Users.fromSnapshot(dataSnapShot);
-        }
+      {
+        userCurrentInfo = Users.fromSnapshot(dataSnapShot);
+      }
     });
   }
 }

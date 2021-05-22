@@ -8,8 +8,6 @@ import 'package:saans_app/AllScreen/loginscreen.dart';
 import 'package:saans_app/AllScreen/registrationScreen.dart';
 
 import 'AllScreen/loginscreen.dart';
-import 'AllScreen/loginscreen.dart';
-import 'AllScreen/loginscreen.dart';
 import 'AllScreen/mainscreen.dart';
 import 'DataHandler/appData.dart';
 
