@@ -25,7 +25,6 @@ class AssistantMethods
 
     if(response != "failed")
     {
-      //placeAddress = response["results"][0]["formatted_address"];
       st1= response["results"][0]["address_components"][4]["long_name"];
       st2= response["results"][0]["address_components"][7]["long_name"];
       st3= response["results"][0]["address_components"][6]["long_name"];
@@ -64,7 +63,6 @@ class AssistantMethods
 
   }
   static int calculateFares(DirectionDetails directionDetails){
-    //in terms of INR
     double distanceTravelledFare = (directionDetails.distanceValue / 1000)* 150 ;
     double totalFareAmount =  distanceTravelledFare ;
     return totalFareAmount.truncate();

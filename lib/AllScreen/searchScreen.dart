@@ -135,8 +135,6 @@ class _SearchScreenState extends State<SearchScreen>
               )
           ),
           ),
-
-          // title for predictions
           SizedBox(height: 10.0,),
           (placePredictionList.length > 0 ) 
             ? Padding(
@@ -157,7 +155,6 @@ class _SearchScreenState extends State<SearchScreen>
       )
    );
  }
-
   void findPlace(placeName) async
   {
     if(placeName.length > 1)
@@ -181,8 +178,6 @@ class _SearchScreenState extends State<SearchScreen>
     }
   }
 }
-
-
 class PredictionTile extends StatelessWidget {
 
   final placePredictions;
@@ -215,20 +210,18 @@ class PredictionTile extends StatelessWidget {
                   Text(placePredictions.secondary_text, overflow:TextOverflow.ellipsis, style:TextStyle(fontSize:12.0, color: Colors.grey),),
                   SizedBox(height:8.0,),
                 ],
-              ), //COLUMN
-            ), //EXPANDED
+              ), 
+            ), 
           ],  
-       ),//ROW
+       ),
         SizedBox(width:10.0,),
       ],
     ),
-    ), //CONTAINER
+    ),
     );
   }
-
   void getPlaceAddressDetails(String placeId, context) async
   {
-
     showDialog(
        context: context,
        builder: (BuildContext context) => ProgressDialog(message: "Setting Dropoff, Please Wait",)
@@ -251,8 +244,6 @@ class PredictionTile extends StatelessWidget {
       address.placeId = placeId;
       address.latitude = res["result"]["geometry"]["location"]["lat"];
       address.longitude = res["result"]["geometry"]["location"]["lng"];
-
-
       Provider.of<AppData>(context, listen:false).updateDropOffLocationAddress(address);
       print("Your Drop Off Location:");
       print(address.placeName);
