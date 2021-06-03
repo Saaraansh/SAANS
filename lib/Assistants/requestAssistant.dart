@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class RequestAssistant {
+  // ignore: non_constant_identifier_names
   static Future<dynamic> getRequest(String url) async {
     http.Response response = await http.get(Uri.parse(url));
     try {

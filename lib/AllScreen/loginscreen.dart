@@ -12,6 +12,8 @@ class LoginScreen extends StatelessWidget {
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController passwordTextEditingController = TextEditingController();
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,17 +26,19 @@ class LoginScreen extends StatelessWidget {
               width: 390.0,
               height: 250.0,
               alignment: Alignment.center,
-            ),
+            ), //LOGIN IMAGE 
             SizedBox(height:1.0,),
             Text(
               "Login",
               style:TextStyle(fontSize:24.0, fontFamily:"Brand Bold"),
               textAlign: TextAlign.center,
-            ), 
+            ), //lOGIN TEXT
+
             Padding(
               padding: EdgeInsets.all(20.0),
               child: Column(
                 children: [
+
                   SizedBox(height:1.0),
                   TextField(
                     controller: emailTextEditingController,
@@ -43,14 +47,15 @@ class LoginScreen extends StatelessWidget {
                      labelText: "Email",
                       labelStyle: TextStyle(
                          fontSize: 10.0,
-                      ),
+                      ), //TEXTSTYLE
                       hintStyle: TextStyle(
                         color: Colors.grey,
                         fontSize:10.0,
-                      ),
-                     ),  
+                      ),//TEXTSTYLE
+                     ),  //INPUTDECORATION
                       style: TextStyle(fontSize: 14.0),
-                  ),
+                  ),//TEXTFIELD FOR EMAIL
+
                     SizedBox(height:1.0),
                     TextField(
                       controller: passwordTextEditingController,
@@ -59,14 +64,14 @@ class LoginScreen extends StatelessWidget {
                        labelText: "Password",
                         labelStyle: TextStyle(
                             fontSize: 10.0,
-                      ), 
+                      ), //TEXTSTYLE
                       hintStyle: TextStyle(
                         color: Colors.grey,
                         fontSize:10.0,
-                      ),
-                     ), 
+                      ),//TEXTSTYLE
+                     ),  //INPUTDECORATION
                       style: TextStyle(fontSize: 14.0),
-                  ),
+                  ),//TEXTFIELD FOR PASSWORD
 
                   SizedBox(height:10.0,),
                   RaisedButton(
@@ -78,12 +83,12 @@ class LoginScreen extends StatelessWidget {
                         child: Text(
                           "Login",
                           style: TextStyle(fontSize: 10.0 , fontFamily:"Brand Bond"),
-                        ),
-                      ),
-                    ), 
+                        ), //TEXT
+                      ),//CENTER
+                    ), //CONTAINER
                     shape: new RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(24.0), 
-                    ),
+                    ), //ROUNDEDBUTTON
                     onPressed: () {
                       if (!emailTextEditingController.text.contains("@")) {
                         displayToastMessage(
@@ -97,22 +102,25 @@ class LoginScreen extends StatelessWidget {
                         LoginAndAuthenticateUser(context);
                       }
                       },
-                  ),  
+                  ), //RAISEDBUTTON
+                  
                 ],
               )
-            ), 
+            ), //PADDING
             FlatButton(
               onPressed:(){
                 Navigator.pushNamedAndRemoveUntil(context, RegistrationScreen.idScreen , (route) => false);
+
               },
               child: Text(
                 "Don't have an account yet? Register Here"
               ),
             ),
           ],
-        ),
-    );
+        ),//COLUMN
+    );//SCAFFOLD
   }
+
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   void LoginAndAuthenticateUser(BuildContext context) async
@@ -122,9 +130,11 @@ class LoginScreen extends StatelessWidget {
       barrierDismissible: false,
       builder: (BuildContext context)
         {
+          // ignore: missing_return
           return ProgressDialog(message: "Authenticating, Please Wait ......");
         }
     );
+
     final User firebaseUser = (await _firebaseAuth
         .signInWithEmailAndPassword(
         email: emailTextEditingController.text,
@@ -133,6 +143,7 @@ class LoginScreen extends StatelessWidget {
       Navigator.pop(context);
       displayToastMessage("Error: " + errMsg.toString(), context);
     })).user;
+
     if (firebaseUser != null) {
       usersRef.child(firebaseUser.uid).once().then((DataSnapshot snap)
       {

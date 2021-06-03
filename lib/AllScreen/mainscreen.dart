@@ -56,6 +56,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
     AssistantMethods.getCurrentOnlineUserInfo();
   }
@@ -170,14 +171,14 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
   static final CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
-  );
+  ); //cameraposition
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
         title: Text("Main Screen"),
-      ), 
+      ), //APPBAR
       drawer: Container(
         color: Colors.white,
         width:255.0,
@@ -205,7 +206,8 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                     ],
                   ),
                 ),
-              ), 
+              ), //INNERCONTAINER
+
               DividerWidget(
                 SizedBox(height:12.0,),
               ),
@@ -259,7 +261,9 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
               });
               locatePosition();
             },
-          ),
+          ), //MAP
+
+          // HAMBURGER BTN
           Positioned(
             top:30.0,
             left:22.0,
@@ -290,7 +294,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                       ),
                     ),
                   ],
-                ),
+                ), //BOXDECORATION
                 child: CircleAvatar(
                   backgroundColor: Colors.white,
                   child: Icon((drawerOpen) ? Icons.menu : Icons.close , color:Colors.black,),
@@ -299,6 +303,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
               ),
             ),
           ),
+
           Positioned(
             left:0.0,
             right:0.0,
@@ -318,9 +323,9 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                       blurRadius: 16.0,
                       spreadRadius: 0.5,
                       offset: Offset(0.7,0.7),
-                    ),
+                    ),//BOXSHAD
                   ],
-                ),
+                ),//BOXDEC
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal:24.0, vertical:18.0),
                   child: Column(
@@ -350,9 +355,9 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                                 blurRadius: 6.0,
                                 spreadRadius: 0.5,
                                 offset: Offset(0.7,0.7),
-                              ),
+                              ),//BOXSHAD2
                             ],
-                          ),
+                          ),//BOXDEC2
                           child: Padding(
                             padding: const EdgeInsets.all(12.0),
                             child: Row(
@@ -364,7 +369,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                             ),
                           ),
                         ),
-                      ),
+                      ),//Container2
                       SizedBox(height: 24.0),
                       Row(
                         children:[
@@ -383,7 +388,8 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                             ],
                           ),
                         ],
-                      ), 
+                      ), //ROW
+
                       SizedBox(height: 10.0),
                       DividerWidget(
                         SizedBox(height: 16.0),
@@ -401,13 +407,14 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                             ],
                           ),
                         ],
-                      ), 
+                      ), //ROW2
                     ],
                   ),
                 ),
               ),
-            ), 
+            ), //Container
           ),
+
           Positioned(
             bottom: 0.0,
             left: 0.0,
@@ -476,6 +483,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
                           ],
                         ),
                       ),
+
                       SizedBox(height: 24.0,),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -504,6 +512,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
               ),
             ),
           ),
+
           Positioned(
             bottom: 0.0,
             left: 0.0,
@@ -586,8 +595,9 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
 
         ],
       ),
-    ); 
+    ); //SCAFFOLD
   }
+
   Future<void> getPlaceDirection() async{
     var initialPos = Provider.of<AppData>(context, listen: false).pickUpLocation;
     var finalPos = Provider.of<AppData>(context, listen: false).dropOffLocation;
@@ -642,7 +652,10 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
     else  if(pickUpLatLng.longitude > dropOffLatLng.longitude)
     {
       latLngBounds = LatLngBounds(southwest: LatLng(pickUpLatLng.latitude,dropOffLatLng.longitude), northeast: LatLng(dropOffLatLng.latitude,pickUpLatLng.longitude));
+
+
     }
+
     else  if(pickUpLatLng.latitude > dropOffLatLng.latitude) {
       latLngBounds = LatLngBounds(
           southwest: LatLng(dropOffLatLng.latitude, pickUpLatLng.longitude),
@@ -689,5 +702,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin
       circlesSet.add(pickUpLocCircle);
       circlesSet.add(dropOffLocCircle);
     });
+
+
   }
 }

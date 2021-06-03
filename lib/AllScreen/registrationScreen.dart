@@ -26,13 +26,14 @@ class RegistrationScreen extends StatelessWidget {
             width: 390.0,
             height: 250.0,
             alignment: Alignment.center,
-          ), 
+          ), //LOGIN IMAGE
           SizedBox(height:1.0,),
           Text(
             "Register here",
             style:TextStyle(fontSize:24.0, fontFamily:"Brand Bold"),
             textAlign: TextAlign.center,
-          ),
+          ), //TEXT
+
           Padding(
               padding: EdgeInsets.all(20.0),
               child: Column(
@@ -45,12 +46,12 @@ class RegistrationScreen extends StatelessWidget {
                       labelText: "Name",
                       labelStyle: TextStyle(
                         fontSize: 10.0,
-                      ),
+                      ), //TEXTSTYLE
                       hintStyle: TextStyle(
                         color: Colors.grey,
                         fontSize:10.0,
-                      ),
-                    ),  
+                      ),//TEXTSTYLE
+                    ),  //INPUTDECORATION
                     style: TextStyle(fontSize: 14.0),
                   ),
                   SizedBox(height:1.0),
@@ -61,14 +62,16 @@ class RegistrationScreen extends StatelessWidget {
                       labelText: "Mobile Number",
                       labelStyle: TextStyle(
                         fontSize: 10.0,
-                      ),
+                      ), //TEXTSTYLE
                       hintStyle: TextStyle(
                         color: Colors.grey,
                         fontSize:10.0,
-                      ),
-                    ),  
+                      ),//TEXTSTYLE
+                    ),  //INPUTDECORATION
                     style: TextStyle(fontSize: 14.0),
                   ),
+
+
                   SizedBox(height:1.0),
                   TextField(
                     controller: emailTextEditingController,
@@ -77,14 +80,15 @@ class RegistrationScreen extends StatelessWidget {
                       labelText: "Email",
                       labelStyle: TextStyle(
                         fontSize: 10.0,
-                      ), 
+                      ), //TEXTSTYLE
                       hintStyle: TextStyle(
                         color: Colors.grey,
                         fontSize:10.0,
-                      ),
-                    ), 
+                      ),//TEXTSTYLE
+                    ),  //INPUTDECORATION
                     style: TextStyle(fontSize: 14.0),
-                  ),
+                  ),//TEXTFIELD FOR EMAIL
+
                   SizedBox(height:1.0),
                   TextField(
                     controller: passwordTextEditingController,
@@ -93,14 +97,15 @@ class RegistrationScreen extends StatelessWidget {
                       labelText: "Password",
                       labelStyle: TextStyle(
                         fontSize: 10.0,
-                      ), 
+                      ), //TEXTSTYLE
                       hintStyle: TextStyle(
                         color: Colors.grey,
                         fontSize:10.0,
-                      ),
-                    ), 
+                      ),//TEXTSTYLE
+                    ),  //INPUTDECORATION
                     style: TextStyle(fontSize: 14.0),
-                  ),
+                  ),//TEXTFIELD FOR PASSWORD
+
                   SizedBox(height:10.0,),
                   RaisedButton(
                       color: Colors.red,
@@ -111,12 +116,12 @@ class RegistrationScreen extends StatelessWidget {
                           child: Text(
                             "Create an account",
                             style: TextStyle(fontSize: 10.0 , fontFamily:"Brand Bond"),
-                          ), 
-                        ),
-                      ), 
+                          ), //TEXT
+                        ),//CENTER
+                      ), //CONTAINER
                       shape: new RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(24.0),
-                      ), 
+                      ), //ROUNDEDBUTTONg
                       onPressed: ()
                       {
                         if(nameTextEditingController.text.length < 3)
@@ -140,11 +145,11 @@ class RegistrationScreen extends StatelessWidget {
                           registerNewUser(context);
                         }
                       }, 
-                  ), 
+                  ), //RAISEDBUTTON
 
                 ],
               )
-          ), 
+          ), //PADDING
           FlatButton(
             onPressed:(){
               Navigator.pushNamedAndRemoveUntil(context, LoginScreen.idScreen, (route) => false);
@@ -154,8 +159,8 @@ class RegistrationScreen extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
+      ),//COLUMN
+    );//SCAFFOLD
   }
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   void registerNewUser(BuildContext context) async
@@ -165,6 +170,7 @@ class RegistrationScreen extends StatelessWidget {
         barrierDismissible: false,
         builder: (BuildContext context)
         {
+          // ignore: missing_return
           return ProgressDialog(message: "Registering, Please Wait ......");
         }
     );
@@ -176,8 +182,10 @@ class RegistrationScreen extends StatelessWidget {
       Navigator.pop(context);
         displayToastMessage("Error: " + errMsg.toString(),context);
       })).user;
-      if(firebaseUser != null)
+
+      if(firebaseUser != null) //user created
       {
+        //error user info to database
          Map userDataMap = {
           "name": nameTextEditingController.text.trim(),
           "email": emailTextEditingController.text.trim(),
